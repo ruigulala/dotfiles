@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/scratch/rui_mysql/mysql-server'
+let g:netrw_dirhist_2='/scratch/rui_mysql/mysql-server/criticalsection/tests'
+let g:netrw_dirhist_3='/scratch/rui_mysql/mysql-server/criticalsection'
+let g:netrw_dirhist_4='/scratch/rui_mysql/mysql-server/criticalsection/tests'
+let g:netrw_dirhist_5='/scratch/mozilla_rev_stat'
+let g:netrw_dirhist_6='/afs/cs.wisc.edu/u/r/u/ruigu/Research/criticalsection'
+let g:netrw_dirhist_7='/Users/ruig/.vim'
