@@ -39,7 +39,12 @@ if [ "$PS1" ]; then
 fi;
 
 HISTSIZE=1000000
-export VIMRUNTIME=~/.vim
+PATH=$PATH:/usr/local/bin
+VIMRUNTIME=~/.vim
+
+# Golang related enviroment variables
+PATH=$PATH:/usr/local/go/bin
+GOPATH=~/workspace/go
 
 # set a fancy prompt
 #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
