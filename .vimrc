@@ -46,8 +46,8 @@ set nobackup
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme elflord
 syntax on
-highlight ColorColumn ctermbg=2
-set colorcolumn=100
+"highlight ColorColumn ctermbg=2
+"set colorcolumn=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Statusline Settings
@@ -61,14 +61,22 @@ hi User1 ctermbg=Black ctermfg=Green   guibg=green guifg=red
 set statusline=%1*%F%h%m\ [Time:\ %{strftime(\"%H:%M\")}]\ [Mod\ Time:\ %{strftime(\"%H:%M:%S\",getftime(expand(\"\%\%\")))}]%=\ [%p%%]\ [%l/%L]
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => File Type Specific Settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *.c, call SetupForCLang()
+au BufNewFile,BufRead *.cpp, call SetupForCLang()
+au BufNewFile,BufRead *.py, call SetupForPython()
+au BufNewFile,BufRead *.go, call SetupForGoLang()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General Settings
+" => Some part will be overwritten by \"Language Specific Settings\"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set ruler 
 set incsearch 
 set vb t_vb=
 set mouse=v
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General Settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabstop=2
 set shiftwidth=2
 set nowrap
@@ -82,15 +90,7 @@ set foldlevel=100
 set hlsearch
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => File Type Specific Settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufNewFile,BufRead *.c, call SetupForCLang()
-au BufNewFile,BufRead *.cpp, call SetupForCLang()
-au BufNewFile,BufRead *.py, call SetupForPython()
-au BufNewFile,BufRead *.go, call SetupForGoLang()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Google Stuff
+" => Language Specific Settings
 " => Detect if the current file type is a C-like language
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Configuration for C-like languages.
@@ -100,12 +100,6 @@ function! SetupForCLang()
     setlocal tabstop=2
     setlocal softtabstop=2
     setlocal expandtab
-
-    " Configure auto-indentation formatting.
-    setlocal cindent
-    setlocal cinoptions=h1,l1,g1,t0,i4,+4,(0,w1,W4
-    setlocal indentexpr=GoogleCppIndent()
-    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
 endfunction
 
 " Configuration for Python.
@@ -115,12 +109,6 @@ function! SetupForPython()
     setlocal tabstop=4
     setlocal softtabstop=4
     setlocal expandtab
-
-    " Configure auto-indentation formatting.
-    setlocal cindent
-    setlocal cinoptions=h1,l1,g1,t0,i4,+4,(0,w1,W4
-    setlocal indentexpr=GoogleCppIndent()
-    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
 endfunction
 
 " Configuration for Golang.
@@ -129,67 +117,4 @@ function! SetupForGoLang()
     setlocal shiftwidth=2
     setlocal tabstop=2
     setlocal softtabstop=2
-
-    " Configure auto-indentation formatting.
-    setlocal cindent
-    setlocal cinoptions=h1,l1,g1,t0,i4,+4,(0,w1,W4
-    setlocal indentexpr=GoogleCppIndent()
-    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
 endfunction
-
-" From https://github.com/vim-scripts/google.vim/blob/master/indent/google.vim
-function! GoogleCppIndent()
-    let l:cline_num = line('.')
-
-    let l:orig_indent = cindent(l:cline_num)
-
-    if l:orig_indent == 0 | return 0 | endif
-
-    let l:pline_num = prevnonblank(l:cline_num - 1)
-    let l:pline = getline(l:pline_num)
-    if l:pline =~# '^\s*template' | return l:pline_indent | endif
-
-    " TODO: I don't know to correct it:
-    " namespace test {
-    " void
-    " ....<-- invalid cindent pos
-    "
-    " void test() {
-    " }
-    "
-    " void
-    " <-- cindent pos
-    if l:orig_indent != &shiftwidth | return l:orig_indent | endif
-
-    let l:in_comment = 0
-    let l:pline_num = prevnonblank(l:cline_num - 1)
-    while l:pline_num > -1
-        let l:pline = getline(l:pline_num)
-        let l:pline_indent = indent(l:pline_num)
-
-        if l:in_comment == 0 && l:pline =~ '^.\{-}\(/\*.\{-}\)\@<!\*/'
-            let l:in_comment = 1
-        elseif l:in_comment == 1
-            if l:pline =~ '/\*\(.\{-}\*/\)\@!'
-                let l:in_comment = 0
-            endif
-        elseif l:pline_indent == 0
-            if l:pline !~# '\(#define\)\|\(^\s*//\)\|\(^\s*{\)'
-                if l:pline =~# '^\s*namespace.*'
-                    return 0
-                else
-                    return l:orig_indent
-                endif
-            elseif l:pline =~# '\\$'
-                return l:orig_indent
-            endif
-        else
-            return l:orig_indent
-        endif
-
-        let l:pline_num = prevnonblank(l:pline_num - 1)
-    endwhile
-
-    return l:orig_indent
-endfunction
-""""""""""""""""""""""""""""
