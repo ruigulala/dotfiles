@@ -64,14 +64,13 @@ set statusline=%1*%F%h%m\ [Time:\ %{strftime(\"%H:%M\")}]\ [Mod\ Time:\ %{strfti
 set ruler 
 set incsearch 
 set vb t_vb=
-set mouse=v "允许鼠标的使用
+set mouse=v
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabstop=2
 set shiftwidth=2
-set expandtab
 set nowrap
 set backspace=indent,eol,start whichwrap+=<,>,[,]
 set ai!
@@ -87,7 +86,8 @@ set hlsearch
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au BufNewFile,BufRead *.c, call SetupForCLang()
 au BufNewFile,BufRead *.cpp, call SetupForCLang()
-au BufNewFile,BufRead *.py, call SetupForCLang()
+au BufNewFile,BufRead *.py, call SetupForPython()
+au BufNewFile,BufRead *.go, call SetupForGoLang()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Google Stuff
@@ -115,6 +115,20 @@ function! SetupForPython()
     setlocal tabstop=4
     setlocal softtabstop=4
     setlocal expandtab
+
+    " Configure auto-indentation formatting.
+    setlocal cindent
+    setlocal cinoptions=h1,l1,g1,t0,i4,+4,(0,w1,W4
+    setlocal indentexpr=GoogleCppIndent()
+    let b:undo_indent = "setl sw< ts< sts< et< tw< wrap< cin< cino< inde<"
+endfunction
+
+" Configuration for Golang.
+function! SetupForGoLang()
+    " Use 2 spaces for indentation.
+    setlocal shiftwidth=2
+    setlocal tabstop=2
+    setlocal softtabstop=2
 
     " Configure auto-indentation formatting.
     setlocal cindent
