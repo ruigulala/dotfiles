@@ -40,6 +40,7 @@ fi;
 
 HISTSIZE=1000000
 PATH=$PATH:/usr/local/bin
+EDITOR=vim
 VIMRUNTIME=~/.vim
 
 # Golang related enviroment variables
