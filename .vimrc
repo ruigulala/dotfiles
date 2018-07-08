@@ -64,6 +64,7 @@ set statusline=%1*%F%h%m\ [Time:\ %{strftime(\"%H:%M\")}]\ [Mod\ Time:\ %{strfti
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => File Type Specific Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufNewFile,BufRead *, call SetupForDefault()
 au BufNewFile,BufRead *.c, call SetupForCLang()
 au BufNewFile,BufRead *.cpp, call SetupForCLang()
 au BufNewFile,BufRead *.py, call SetupForPython()
@@ -93,6 +94,15 @@ set hlsearch
 " => Language Specific Settings
 " => Detect if the current file type is a C-like language
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Configuration for default languages.
+function! SetupForDefault()
+    " Use 2 spaces for indentation.
+    setlocal shiftwidth=2
+    setlocal tabstop=2
+    setlocal softtabstop=2
+    setlocal expandtab
+endfunction
+
 " Configuration for C-like languages.
 function! SetupForCLang()
     " Use 2 spaces for indentation.
