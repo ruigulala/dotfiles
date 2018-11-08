@@ -44,7 +44,8 @@ EDITOR=vim
 VIMRUNTIME=~/.vim
 
 # Golang related enviroment variables
-PATH=$PATH:/usr/local/go/bin
+PATH=$PATH:/usr/local/go/bin:~/go/bin
+export GOPATH=~/go
 
 # set a fancy prompt
 #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
