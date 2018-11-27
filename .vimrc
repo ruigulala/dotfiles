@@ -3,7 +3,6 @@
 " => Author: Rui Gu
 " => Email: rui.gu3@gmail.com
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au BufRead,BufNewFile *.go set filetype=go
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Auto Save Settings
@@ -46,8 +45,6 @@ set nobackup
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme elflord
 syntax on
-"highlight ColorColumn ctermbg=2
-"set colorcolumn=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Statusline Settings
@@ -64,6 +61,7 @@ set statusline=%1*%F%h%m\ [Time:\ %{strftime(\"%H:%M\")}]\ [Mod\ Time:\ %{strfti
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => File Type Specific Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au BufRead,BufNewFile *.go set filetype=go
 au BufNewFile,BufRead *, call SetupForDefault()
 au BufNewFile,BufRead *.c, call SetupForCLang()
 au BufNewFile,BufRead *.cpp, call SetupForCLang()
@@ -97,35 +95,44 @@ set hlsearch
 " Configuration for default languages.
 function! SetupForDefault()
     " Use 2 spaces for indentation.
-    setlocal shiftwidth=2
-    setlocal tabstop=2
-    setlocal softtabstop=2
-    setlocal expandtab
+    set noexpandtab
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
 endfunction
 
 " Configuration for C-like languages.
 function! SetupForCLang()
     " Use 2 spaces for indentation.
-    setlocal shiftwidth=2
-    setlocal tabstop=2
-    setlocal softtabstop=2
-    setlocal expandtab
+    set expandtab!
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    call DisplayLineWidthLimitation()
 endfunction
 
 " Configuration for Python.
 function! SetupForPython()
     " Use 4 spaces for indentation.
-    setlocal shiftwidth=4
-    setlocal tabstop=4
-    setlocal softtabstop=4
-    setlocal expandtab
+    set expandtab!
+    set shiftwidth=4
+    set tabstop=4
+    set softtabstop=4
+    call DisplayLineWidthLimitation()
 endfunction
 
 " Configuration for Golang.
 function! SetupForGoLang()
     " Use 2 spaces for indentation.
-    setlocal expandtab!
-    setlocal shiftwidth=2
-    setlocal tabstop=2
-    setlocal softtabstop=2
+    set expandtab!
+    set shiftwidth=2
+    set tabstop=2
+    set softtabstop=2
+    call DisplayLineWidthLimitation()
+endfunction
+
+" Display the 80 chars line width limitation
+function! DisplayLineWidthLimitation()
+    highlight ColorColumn ctermbg=2
+    set colorcolumn=80
 endfunction
