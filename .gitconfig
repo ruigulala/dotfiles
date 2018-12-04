@@ -1,0 +1,14 @@
+[user]
+	name = Rui Gu
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+[core]
+	editor = vim
+[diff]
+	tool = vimdiff
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	df = diff
