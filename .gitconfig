@@ -12,3 +12,7 @@
 	st = status
 	br = branch
 	df = diff
+[difftool]
+	prompt = false
+[pager]
+	diff = "vim -c '%sm/\\e.\\{-}m//ge' -c 'set ft=diff' -c 'normal gg' -"
