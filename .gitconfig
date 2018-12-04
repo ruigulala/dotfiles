@@ -4,6 +4,7 @@
 	insteadOf = https://github.com/
 [core]
 	editor = vim
+	pager = less -+$LESS -R
 [diff]
 	tool = vimdiff
 [alias]
