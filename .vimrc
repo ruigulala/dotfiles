@@ -43,6 +43,7 @@ set nobackup
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Color Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au FilterWritePre * if &diff | colorscheme murphy | endif
 colorscheme elflord
 syntax on
 
@@ -67,6 +68,7 @@ au BufNewFile,BufRead *.c, call SetupForCLang()
 au BufNewFile,BufRead *.cpp, call SetupForCLang()
 au BufNewFile,BufRead *.py, call SetupForPython()
 au BufNewFile,BufRead *.go, call SetupForGoLang()
+au BufNewFile,BufRead *.yaml, call SetupForCLang()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Settings
@@ -124,7 +126,7 @@ endfunction
 " Configuration for Golang.
 function! SetupForGoLang()
     " Use 2 spaces for indentation.
-    set expandtab!
+    set noexpandtab
     set shiftwidth=2
     set tabstop=2
     set softtabstop=2
