@@ -77,7 +77,7 @@ au BufNewFile,BufRead *.yaml, call SetupForCLang()
 set ruler 
 set incsearch 
 set vb t_vb=
-set mouse=v
+set mouse=a
 set tabstop=2
 set shiftwidth=2
 set nowrap
