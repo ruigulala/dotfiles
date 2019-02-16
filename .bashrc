@@ -38,9 +38,14 @@ if [ "$PS1" ]; then
     fi
 fi;
 
+function title {
+  echo -ne "\033]0;"$*"\007"
+}
+
 HISTSIZE=1000000
 PATH=$PATH:/usr/local/bin
-EDITOR=vim
+export EDITOR="vim"
+export KUBE_EDITOR="vim"
 VIMRUNTIME=~/.vim
 
 # Golang related enviroment variables
@@ -65,3 +70,15 @@ PS1="${LASTSTAT} ${debian_chroot:+($debian_chroot)}${YEL}\u${LBU}@\h:${LCY}\w${L
 
 # Additional alias
 alias ssh='ssh -o ServerAliveInterval=120'
+alias k='kubectl'
+
+# Google Cloud Stuff
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ruigu/google-cloud-sdk/path.bash.inc' ]; then . '/Users/ruigu/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ruigu/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/ruigu/google-cloud-sdk/completion.bash.inc'; fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
